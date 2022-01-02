@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HiMenu } from "react-icons/hi";
 import { AiFillCloseCircle } from "react-icons/ai";
 
 import { Sidebar, UserProfile, Login } from "../components";
-import { Link } from "react-router-dom";
+import Pins from "./Pins";
+import { Link, Route, Routes } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { client } from "../client";
 import { userQuery } from "../utils/data";
@@ -17,6 +18,8 @@ const Home = () => {
       ? JSON.parse(localStorage.getItem("user"))
       : localStorage.clear();
 
+  const scrollRef = useRef(null);
+
   useEffect(() => {
     const query = userQuery(userInfo?.googleId);
 
@@ -25,36 +28,54 @@ const Home = () => {
     });
   }, []);
 
+  useEffect(() => {
+    scrollRef.current.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="flex md:flex-row bg-gray-50 flex-col h-screen transaction-height duration-75 ease-out">
       <div className="hidden md:flex h-screen flex-initial">
         <Sidebar user={user && user} />
       </div>
+
       <div className="flex flex-row md:hidden">
-        <HiMenu
-          fontSize={40}
-          className="cursor-pointer"
-          onClick={() => setToggleSidebar(true)}
-        />
-        <Link to="/">
-          <img src={logo} alt="logo" className="w-28" />
-        </Link>
-        <Link to={`user-profile/${user?._id}`}>
-          <img src={user?.image} alt="profileimage" className="w-9 h-9" />
-        </Link>
-      </div>
-      {toggleSidebar && (
-        <div className="flex w-4/5 bg-white h-screen overflow-auto shadow-md z-10 animate-slide-in">
-          <div className="absolute w-full flex justify-end items-center p-2">
-            <AiFillCloseCircle
-              fontSize={30}
-              className="cursor-pointer"
-              onClick={() => setToggleSidebar(false)}
+        <div className="p-2 w-full flex flex-row justify-between items-center shadow-md">
+          <HiMenu
+            fontSize={40}
+            className="cursor-pointer"
+            onClick={() => setToggleSidebar(true)}
+          />
+          <Link to="/">
+            <img src={logo} alt="logo" className="w-28" />
+          </Link>
+          <Link to={`user-profile/${user?._id}`}>
+            <img
+              src={user?.image}
+              alt="profileimage"
+              className="w-9 h-9 rounded-lg"
             />
-          </div>
-          <Sidebar user={user && user} closeToggle={setToggleSidebar} />
+          </Link>
         </div>
-      )}
+        {toggleSidebar && (
+          <div className="flex w-4/5 bg-white h-screen overflow-auto shadow-md z-10 animate-slide-in">
+            <div className="absolute w-full flex justify-end items-center p-2">
+              <AiFillCloseCircle
+                fontSize={30}
+                className="cursor-pointer"
+                onClick={() => setToggleSidebar(false)}
+              />
+            </div>
+            <Sidebar user={user && user} closeToggle={setToggleSidebar} />
+          </div>
+        )}
+      </div>
+
+      <div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
+        <Routes>
+          <Route path="/user-profile/:userId" element={<UserProfile />} />
+          <Route path="/*" element={<Pins user={user && user} />} />
+        </Routes>
+      </div>
     </div>
   );
 };
