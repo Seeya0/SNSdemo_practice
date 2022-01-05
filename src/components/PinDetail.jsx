@@ -41,8 +41,8 @@ const PinDetail = ({ user }) => {
 
       client
         .patch(pinId)
-        .setIfMissing({ comment: [] })
-        .insert('after', 'comment[-1]', [
+        .setIfMissing({ comments: [] })
+        .insert('after', 'comments[-1]', [
           {
             comment,
             _key: uuidv4(),
@@ -67,7 +67,7 @@ const PinDetail = ({ user }) => {
       {pinDetail && (
         <div
           className="flex xl:flex-row flex-col m-auto bg-white"
-          style={{ maxWidth: '1350px', borderRadius: '32px' }}
+          style={{ maxWidth: '1500px', borderRadius: '32px' }}
         >
           <div className="flex justify-center items-center md:items-start flex-initial">
             <img
@@ -154,7 +154,12 @@ const PinDetail = ({ user }) => {
         </div>
       )}
       {pins ? (
-        <MasonryLayout pins={pins} />
+        <>
+          <h2 className="text-center font-bold text-2xl mt-8 mb-4 ">
+            More like this
+          </h2>
+          <MasonryLayout pins={pins} />
+        </>
       ) : (
         <Spinner message="Loading more pins" />
       )}

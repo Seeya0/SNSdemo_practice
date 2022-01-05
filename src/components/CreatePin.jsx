@@ -180,7 +180,7 @@ const CreatePin = ({ user }) => {
                 }}
                 className="outline-none w-4/5 text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer"
               >
-                <option value="others" className="bg-white sm:text-bg">
+                <option value="other" className="bg-white sm:text-bg">
                   Select Category
                 </option>
                 {categories.map((item) => (

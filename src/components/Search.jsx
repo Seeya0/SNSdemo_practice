@@ -2,11 +2,11 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { feedQuery, searchQuery } from "../utils/data";
-import { client } from '../client'
-import Spinner from './Spinner'
+import { client } from "../client";
+import Spinner from "./Spinner";
 import MasonryLayout from "./MasonryLayout";
 
-const Search = ({searchTerm}) => {
+const Search = ({ searchTerm }) => {
   const [pins, setPins] = useState();
   const [loading, setLoading] = useState(false);
 

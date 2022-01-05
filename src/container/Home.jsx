@@ -8,15 +8,13 @@ import { Link, Route, Routes } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { client } from "../client";
 import { userQuery } from "../utils/data";
+import { fetchUser } from "../utils/fetchUser";
 
 const Home = () => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const [user, setUser] = useState(null);
 
-  const userInfo =
-    localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : localStorage.clear();
+  const userInfo = fetchUser();
 
   const scrollRef = useRef(null);
 
