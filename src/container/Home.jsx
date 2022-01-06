@@ -1,22 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
-import { HiMenu } from "react-icons/hi";
-import { AiFillCloseCircle } from "react-icons/ai";
+import React, { useEffect, useRef, useState } from 'react';
+import { HiMenu } from 'react-icons/hi';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
-import { Sidebar, UserProfile, Login } from "../components";
-import Pins from "./Pins";
-import { Link, Route, Routes } from "react-router-dom";
-import logo from "../assets/logo.png";
-import { client } from "../client";
-import { userQuery } from "../utils/data";
-import { fetchUser } from "../utils/fetchUser";
+import { Sidebar, UserProfile, Login } from '../components';
+import Pins from './Pins';
+import { Link, Route, Routes } from 'react-router-dom';
+import logo from '../assets/logo.png';
+import { client } from '../client';
+import { userQuery } from '../utils/data';
+import { fetchUser } from '../utils/fetchUser';
 
 const Home = () => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const [user, setUser] = useState(null);
+  const scrollRef = useRef(null);
 
   const userInfo = fetchUser();
-
-  const scrollRef = useRef(null);
 
   useEffect(() => {
     const query = userQuery(userInfo?.googleId);
@@ -28,7 +27,7 @@ const Home = () => {
 
   useEffect(() => {
     scrollRef.current.scrollTo(0, 0);
-  }, []);
+  });
 
   return (
     <div className="flex md:flex-row bg-gray-50 flex-col h-screen transaction-height duration-75 ease-out">
@@ -49,13 +48,13 @@ const Home = () => {
           <Link to={`user-profile/${user?._id}`}>
             <img
               src={user?.image}
-              alt="profileimage"
-              className="w-9 h-9 rounded-lg"
+              alt="user-pic"
+              className="w-9 h-9 rounded-full"
             />
           </Link>
         </div>
         {toggleSidebar && (
-          <div className="flex w-4/5 bg-white h-screen overflow-auto shadow-md z-10 animate-slide-in">
+          <div className="flex w-4/5 bg-white h-screen overflow-y-auto shadow-md z-10 animate-slide-in">
             <div className="absolute w-full flex justify-end items-center p-2">
               <AiFillCloseCircle
                 fontSize={30}
