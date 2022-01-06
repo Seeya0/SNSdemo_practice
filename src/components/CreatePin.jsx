@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { AiOutlineUpload } from "react-icons/ai";
-import { MdDelete } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import { client } from "../client";
-import { categories } from "../utils/data";
+import React, { useState } from 'react';
+import { AiOutlineUpload } from 'react-icons/ai';
+import { MdDelete } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+import { client } from '../client';
+import { categories } from '../utils/data';
 
-import Spinner from "./Spinner";
+import Spinner from './Spinner';
 
 const CreatePin = ({ user }) => {
-  const [title, setTitle] = useState("");
-  const [about, setAbout] = useState("");
+  const [title, setTitle] = useState('');
+  const [about, setAbout] = useState('');
   const [loading, setLoading] = useState(false);
   const [destination, setDestination] = useState();
   const [fields, setFields] = useState();
@@ -23,17 +23,19 @@ const CreatePin = ({ user }) => {
     const selectedFile = e.target.files[0];
 
     if (
-      selectedFile.type === "image/png" ||
-      selectedFile.type === "image/svg" ||
-      selectedFile.type === "image/jpeg" ||
-      selectedFile.type === "image/gif" ||
-      selectedFile.type === "image/tiff"
+      selectedFile.type === 'image/png' ||
+      selectedFile.type === 'image/svg' ||
+      selectedFile.type === 'image/jpeg' ||
+      selectedFile.type === 'image/gif' ||
+      selectedFile.type === 'image/tiff' ||
+      selectedFile.type === 'image/heic' ||
+      selectedFile.type === 'image/heif'
     ) {
       setWrongImageType(false);
       setLoading(true);
 
       client.assets
-        .upload("image", selectedFile, {
+        .upload('image', selectedFile, {
           contentType: selectedFile.type,
           filename: selectedFile.name,
         })
@@ -42,7 +44,7 @@ const CreatePin = ({ user }) => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("Upload failed", error.message);
+          console.log('Upload failed', error.message);
         });
     } else {
       setLoading(false);
@@ -53,26 +55,26 @@ const CreatePin = ({ user }) => {
   const savePin = () => {
     if (title && about && destination && imageAsset?._id && category) {
       const doc = {
-        _type: "pin",
+        _type: 'pin',
         title,
         about,
         destination,
         image: {
-          _type: "image",
+          _type: 'image',
           asset: {
-            _type: "reference",
+            _type: 'reference',
             _ref: imageAsset?._id,
           },
         },
         userId: user._id,
         postedBy: {
-          _type: "postedBy",
+          _type: 'postedBy',
           _ref: user._id,
         },
         category,
       };
       client.create(doc).then(() => {
-        navigate("/");
+        navigate('/');
       });
     } else {
       setFields(true);
@@ -106,8 +108,8 @@ const CreatePin = ({ user }) => {
                   </div>
 
                   <p className="mt-32 text-gray-400">
-                    Recommendation: Use high-quality JPG, JPEG, SVG, PNG, GIF or
-                    TIFF less than 20MB
+                    Recommendation: Use high-quality JPG, JPEG, SVG, PNG, HEIC,
+                    GIF or TIFF less than 20MB
                   </p>
                 </div>
                 <input

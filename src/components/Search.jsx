@@ -1,17 +1,17 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { feedQuery, searchQuery } from "../utils/data";
-import { client } from "../client";
-import Spinner from "./Spinner";
-import MasonryLayout from "./MasonryLayout";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { feedQuery, searchQuery } from '../utils/data';
+import { client } from '../client';
+import Spinner from './Spinner';
+import MasonryLayout from './MasonryLayout';
 
 const Search = ({ searchTerm }) => {
   const [pins, setPins] = useState();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (searchTerm !== "") {
+    if (searchTerm !== '') {
       setLoading(true);
       const query = searchQuery(searchTerm.toLowerCase());
       client.fetch(query).then((data) => {
@@ -27,10 +27,10 @@ const Search = ({ searchTerm }) => {
   }, [searchTerm]);
 
   return (
-    <div className="flex flex-col justify-center items-center w-full h-full">
+    <div>
       {loading && <Spinner message="Searching pins" />}
       {pins?.length !== 0 && <MasonryLayout pins={pins} />}
-      {pins?.length === 0 && searchTerm !== "" && !loading && (
+      {pins?.length === 0 && searchTerm !== '' && !loading && (
         <div className="mt-10 text-center text-xl">No Pins Found!</div>
       )}
     </div>
